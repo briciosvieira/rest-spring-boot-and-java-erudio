@@ -1,25 +1,34 @@
 package br.com.briciosvieira.APISpringBoot.model;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "person")
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(name = "fist_name", nullable = false, length = 20)
     private String firstName;
+    @Column(name = "last_name",nullable = false, length = 20)
     private String lastName;
-    private String adress;
+    @Column(nullable = false, length = 100)
+    private String address;
+    @Column(nullable = false, length = 6)
     private String gender;
 
     public Person() {
     }
-    public Person(long id, String firstName, String lastName, String adress, String gender) {
+    public Person(Long id, String firstName, String lastName, String address, String gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.adress = adress;
+        this.address = address;
         this.gender = gender;
     }
 
@@ -30,15 +39,15 @@ public class Person implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Person person = (Person) o;
-        return id == person.id && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(adress, person.adress) && Objects.equals(gender, person.gender);
+        return id == person.id && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, adress, gender);
+        return Objects.hash(id, firstName, lastName, address, gender);
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -62,12 +71,12 @@ public class Person implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getGender() {

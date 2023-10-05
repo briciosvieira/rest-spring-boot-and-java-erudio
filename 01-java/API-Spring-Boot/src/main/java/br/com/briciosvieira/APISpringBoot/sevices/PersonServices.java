@@ -1,6 +1,9 @@
 package br.com.briciosvieira.APISpringBoot.sevices;
 
+import br.com.briciosvieira.APISpringBoot.exceptions.ResourcesNotFoundException;
 import br.com.briciosvieira.APISpringBoot.model.Person;
+import br.com.briciosvieira.APISpringBoot.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,40 +12,37 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
 @Service
 public class PersonServices {
-    private final AtomicLong counter = new AtomicLong();
+
     private Logger logger = Logger.getLogger(PersonServices.class.getName());
 
+        @Autowired
+        PersonRepository repository;
 
     public List<Person> findAll(){
-        List<Person> persons = new ArrayList<>();
-        for (int i = 0; i < 8; i++ ){
-            Person person = mockPerson(i);
-            persons.add(person);
-        }
-        return persons;
+        return repository.findAll();
     }
 
 
-    public Person findById(String id){
+    public Person findById(Long id){
         logger.info("Finding one person!");
-
-         Person person = new Person();
-         person.setId(counter.incrementAndGet());
-         person.setFirstName("Fabricio");
-         person.setLastName("Vieira");
-         person.setAdress("amendoeira");
-         person.setGender("Male");
-        return person;
+        return repository.findById(id).orElseThrow(()-> new ResourcesNotFoundException("Usuário não encontrado"));
     }
 
     public Person create(Person person){
         logger.info("create one person!");
-        return person;
+        return repository.save(person);
     }
-    public Person update(Person person){
+    public Person update(Person person ){
         logger.info("update one person!");
 
-        return person;
+        var entity =  repository.findById(person.getId()).orElseThrow(()-> new ResourcesNotFoundException("Usuário não atualizado"));
+
+        entity.setFirstName("nome ");
+        entity.setLastName("sobrenome ");
+        entity.setAddress("endereço ");
+        entity.setGender("genero");
+        return repository.save(person);
+
     }
 
     public void delete(String id){
@@ -54,10 +54,9 @@ public class PersonServices {
         logger.info("Finding all person!");
 
         Person person = new Person();
-        person.setId(counter.incrementAndGet());
         person.setFirstName("nome "+ i);
         person.setLastName("sobrenome "+ i);
-        person.setAdress("endereço "+ i);
+        person.setAddress("endereço "+ i);
         person.setGender("genero" + i);
         return person;
     }

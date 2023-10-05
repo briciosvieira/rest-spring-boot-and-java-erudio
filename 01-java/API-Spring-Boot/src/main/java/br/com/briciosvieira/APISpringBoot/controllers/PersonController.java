@@ -23,7 +23,7 @@ public class PersonController {
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.GET,
     produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable (value = "id") String id ) throws Exception{
+    public Person findById(@PathVariable (value = "id") Long id ) throws Exception{
       return personServices.findById(id);
     }
 
