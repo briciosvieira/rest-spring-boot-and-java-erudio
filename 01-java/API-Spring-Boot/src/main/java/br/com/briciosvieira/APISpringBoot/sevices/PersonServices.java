@@ -37,27 +37,19 @@ public class PersonServices {
 
         var entity =  repository.findById(person.getId()).orElseThrow(()-> new ResourcesNotFoundException("Usuário não atualizado"));
 
-        entity.setFirstName("nome ");
-        entity.setLastName("sobrenome ");
-        entity.setAddress("endereço ");
-        entity.setGender("genero");
+        entity.setFirstName(person.getFirstName());
+        entity.setLastName(person.getLastName());
+        entity.setAddress(person.getAddress());
+        entity.setGender(person.getGender());
         return repository.save(person);
 
     }
 
-    public void delete(String id){
+    public void delete(Long id){
         logger.info("Delete one person!");
+        var entity =  repository.findById(id).orElseThrow(()-> new ResourcesNotFoundException("Usuário não Deletado"));
 
+        repository.delete(entity);
     }
 
-    private Person mockPerson(int i) {
-        logger.info("Finding all person!");
-
-        Person person = new Person();
-        person.setFirstName("nome "+ i);
-        person.setLastName("sobrenome "+ i);
-        person.setAddress("endereço "+ i);
-        person.setGender("genero" + i);
-        return person;
-    }
 }
