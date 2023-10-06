@@ -1,8 +1,10 @@
 package br.com.briciosvieira.APISpringBoot.sevices;
 
 import br.com.briciosvieira.APISpringBoot.exceptions.ResourcesNotFoundException;
+import br.com.briciosvieira.APISpringBoot.mapper.DozerMapper;
 import br.com.briciosvieira.APISpringBoot.model.Person;
 import br.com.briciosvieira.APISpringBoot.repository.PersonRepository;
+import br.com.briciosvieira.APISpringBoot.vo.v1.PersonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,37 +20,41 @@ public class PersonServices {
         @Autowired
         PersonRepository repository;
 
-    public List<Person> findAll(){
-        return repository.findAll();
+    public List<PersonVO> findAll(){
+        return DozerMapper.parseListObjects(repository.findAll(),PersonVO.class);
     }
 
 
-    public Person findById(Long id){
+    public PersonVO findById(Long id){
         logger.info("Finding one person!");
-        return repository.findById(id).orElseThrow(()-> new ResourcesNotFoundException("Usuário não encontrado"));
+         var entity = repository.findById(id)
+                 .orElseThrow(()-> new ResourcesNotFoundException("Usuário não encontrado"));
+        return DozerMapper.parseObject(entity, PersonVO.class);
     }
 
-    public Person create(Person person){
+    public PersonVO create(PersonVO personVO){
         logger.info("create one person!");
-        return repository.save(person);
+        var entity = DozerMapper.parseObject(personVO, Person.class);
+        var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+        return vo;
     }
-    public Person update(Person person ){
+    public PersonVO update(PersonVO personVO ){
         logger.info("update one person!");
 
-        var entity =  repository.findById(person.getId()).orElseThrow(()-> new ResourcesNotFoundException("Usuário não atualizado"));
+        var entity =  repository.findById(personVO.getId()).orElseThrow(()-> new ResourcesNotFoundException("Usuário não atualizado"));
 
-        entity.setFirstName(person.getFirstName());
-        entity.setLastName(person.getLastName());
-        entity.setAddress(person.getAddress());
-        entity.setGender(person.getGender());
-        return repository.save(person);
+        entity.setFirstName(personVO.getFirstName());
+        entity.setLastName(personVO.getLastName());
+        entity.setAddress(personVO.getAddress());
+        entity.setGender(personVO.getGender());
+        var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
+        return vo;
 
     }
 
     public void delete(Long id){
         logger.info("Delete one person!");
         var entity =  repository.findById(id).orElseThrow(()-> new ResourcesNotFoundException("Usuário não Deletado"));
-
         repository.delete(entity);
     }
 

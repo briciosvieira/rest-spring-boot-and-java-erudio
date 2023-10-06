@@ -3,6 +3,7 @@ package br.com.briciosvieira.APISpringBoot.controllers;
 
 import br.com.briciosvieira.APISpringBoot.model.Person;
 import br.com.briciosvieira.APISpringBoot.sevices.PersonServices;
+import br.com.briciosvieira.APISpringBoot.vo.v1.PersonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,27 +15,27 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
     @Autowired
-    private PersonServices personServices;
+    PersonServices personServices;
 
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Person> findAll(){
-        return  personServices.findAll();
+    @GetMapping( produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<PersonVO> findAll(){
+        return personServices.findAll();
     }
-    @GetMapping(value = "/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person findById(@PathVariable (value = "id") Long id ) throws Exception{
+
+    @GetMapping( value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public PersonVO findById(@PathVariable (value = "id") Long id ) throws Exception{
       return personServices.findById(id);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person create(@RequestBody Person person ){
-        return personServices.create(person);
+    public PersonVO create(@RequestBody PersonVO personVo ){
+        return personServices.create(personVo);
     }
 
 
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Person update( @RequestBody Person person ){
-        return personServices.update(person);
+    public PersonVO update( @RequestBody PersonVO personVo ){
+        return personServices.update(personVo);
     }
 
     @DeleteMapping(value = "/{id}")
