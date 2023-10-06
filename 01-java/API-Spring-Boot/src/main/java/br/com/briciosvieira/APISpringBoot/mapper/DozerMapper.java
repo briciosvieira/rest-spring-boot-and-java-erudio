@@ -20,7 +20,7 @@ public class DozerMapper {
     public static <Origin, Destiny> @NotNull List<Destiny> parseListObjects(@NotNull List<Origin> origin, Class<Destiny> destination){
         List<Destiny>destinationObjects = new ArrayList<Destiny>();
         for (Origin o: origin) {
-            destinationObjects.add( mapper.map(origin, destination));
+            destinationObjects.add( mapper.map(o, destination));
         }
         return destinationObjects;
     }
