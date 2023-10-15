@@ -17,6 +17,7 @@ public class PersonServices {
         @Autowired
         PersonRepository repository;
 
+
     public List<PersonVO> findAll(){
         return DozerMapper.parseListObjects(repository.findAll(),PersonVO.class);
     }
@@ -35,6 +36,7 @@ public class PersonServices {
         var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
         return vo;
     }
+
     public PersonVO update(PersonVO personVO ){
         logger.info("update one person!");
 
@@ -54,5 +56,6 @@ public class PersonServices {
         var entity =  repository.findById(id).orElseThrow(()-> new ResourcesNotFoundException("Usuário não Deletado"));
         repository.delete(entity);
     }
+
 
 }
