@@ -1,14 +1,12 @@
 package br.com.briciosvieira.APISpringBoot.vo.v1;
-
-
-
+import org.springframework.hateoas.RepresentationModel;
 import java.io.Serializable;
 import java.util.Objects;
 
 
-public class PersonVO implements Serializable {
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 
-    private Long id;
+    private Long key;
     private String firstName;
     private String lastName;
     private String address;
@@ -16,8 +14,9 @@ public class PersonVO implements Serializable {
 
     public PersonVO() {
     }
-    public PersonVO(Long id, String firstName, String lastName, String address, String gender) {
-        this.id = id;
+    
+    public PersonVO(Long key, String firstName, String lastName, String address, String gender) {
+        this.key = key;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -31,20 +30,20 @@ public class PersonVO implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonVO person = (PersonVO) o;
-        return id == person.id && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+        return key == person.key && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender);
+        return Objects.hash(key, firstName, lastName, address, gender);
     }
 
     public Long getId() {
-        return id;
+        return key;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setId(long key) {
+        this.key = key;
     }
 
     public String getFirstName() {
