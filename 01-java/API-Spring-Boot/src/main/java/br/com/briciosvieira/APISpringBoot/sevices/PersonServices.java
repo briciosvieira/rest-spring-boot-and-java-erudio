@@ -1,5 +1,8 @@
 package br.com.briciosvieira.APISpringBoot.sevices;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import br.com.briciosvieira.APISpringBoot.controllers.PersonController;
 import br.com.briciosvieira.APISpringBoot.exceptions.ResourcesNotFoundException;
 import br.com.briciosvieira.APISpringBoot.mapper.DozerMapper;
 import br.com.briciosvieira.APISpringBoot.model.Person;
@@ -19,15 +22,25 @@ public class PersonServices {
 
 
     public List<PersonVO> findAll(){
-        return DozerMapper.parseListObjects(repository.findAll(),PersonVO.class);
+        var persons = DozerMapper.parseListObjects(repository.findAll(),PersonVO.class);
+         persons.stream().forEach(p -> {
+             try {
+                 p.add(linkTo(methodOn(PersonController.class).findById(p.getId())).withSelfRel());
+             } catch (Exception e) {
+                 throw new RuntimeException(e);
+             }
+         });
+        return persons;
     }
 
 
-    public PersonVO findById(Long id){
+    public PersonVO findById(Long id) throws Exception {
         logger.info("Finding one person!");
          var entity = repository.findById(id)
                  .orElseThrow(()-> new ResourcesNotFoundException("Usuário não encontrado"));
-        return DozerMapper.parseObject(entity, PersonVO.class);
+        PersonVO vo = DozerMapper.parseObject(entity, PersonVO.class);
+        vo.add(linkTo(methodOn(PersonController.class).findById(id)).withSelfRel());
+        return vo;
     }
 
     public PersonVO create(PersonVO personVO){

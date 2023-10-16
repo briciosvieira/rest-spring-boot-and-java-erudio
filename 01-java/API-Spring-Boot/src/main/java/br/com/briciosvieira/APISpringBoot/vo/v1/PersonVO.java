@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 
-    private Long key;
+    private Long id;
     private String firstName;
     private String lastName;
     private String address;
@@ -15,8 +15,8 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
     public PersonVO() {
     }
     
-    public PersonVO(Long key, String firstName, String lastName, String address, String gender) {
-        this.key = key;
+    public PersonVO(Long id, String firstName, String lastName, String address, String gender) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -30,20 +30,20 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PersonVO person = (PersonVO) o;
-        return key == person.key && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+        return id == person.id && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(key, firstName, lastName, address, gender);
+        return Objects.hash(id, firstName, lastName, address, gender);
     }
 
     public Long getId() {
-        return key;
+        return id;
     }
 
-    public void setId(long key) {
-        this.key = key;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
