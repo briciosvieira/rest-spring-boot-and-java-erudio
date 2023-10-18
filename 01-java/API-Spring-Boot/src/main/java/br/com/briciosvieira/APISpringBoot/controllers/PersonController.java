@@ -1,7 +1,7 @@
 package br.com.briciosvieira.APISpringBoot.controllers;
 
 
-import br.com.briciosvieira.APISpringBoot.sevices.PersonServices;
+import br.com.briciosvieira.APISpringBoot.sevices.PersonService;
 import br.com.briciosvieira.APISpringBoot.vo.v1.PersonVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,35 +14,35 @@ import java.util.List;
 @RequestMapping("/person")
 public class PersonController {
     @Autowired
-    PersonServices personServices;
+    PersonService personService;
 
     @GetMapping( produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public List<PersonVO> findAll(){
-        return personServices.findAll();
+        return personService.findAll();
     }
 
     @GetMapping( value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public PersonVO findById(@PathVariable (value = "id") Long id ) throws Exception{
-      return personServices.findById(id);
+      return personService.findById(id);
     }
 
     @PostMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE} )
     public PersonVO create(@RequestBody PersonVO personVo ){
-        return personServices.create(personVo);
+        return personService.create(personVo);
     }
 
     @PutMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public PersonVO update( @RequestBody PersonVO personVo ){
-        return personServices.update(personVo);
+        return personService.update(personVo);
     }
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<?> delete(@PathVariable (value = "id") Long id ) {
-        personServices.delete(id);
+        personService.delete(id);
         return ResponseEntity.noContent().build();
     }
 
