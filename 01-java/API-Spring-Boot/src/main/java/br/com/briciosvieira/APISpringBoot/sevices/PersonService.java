@@ -3,6 +3,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import br.com.briciosvieira.APISpringBoot.controllers.PersonController;
+import br.com.briciosvieira.APISpringBoot.exceptions.RequiredObjectIsNullException;
 import br.com.briciosvieira.APISpringBoot.exceptions.ResourcesNotFoundException;
 import br.com.briciosvieira.APISpringBoot.mapper.DozerMapper;
 import br.com.briciosvieira.APISpringBoot.model.Person;
@@ -13,9 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.logging.Logger;
 @Service
-public class PersonServices {
+public class PersonService {
 
-    private Logger logger = Logger.getLogger(PersonServices.class.getName());
+    private Logger logger = Logger.getLogger(PersonService.class.getName());
 
         @Autowired
         PersonRepository repository;
@@ -44,6 +45,7 @@ public class PersonServices {
     }
 
     public PersonVO create(PersonVO personVO){
+        if (personVO ==null ) throw new RequiredObjectIsNullException();
         logger.info("create one person!");
         var entity = DozerMapper.parseObject(personVO, Person.class);
         var vo = DozerMapper.parseObject(repository.save(entity), PersonVO.class);
@@ -51,10 +53,9 @@ public class PersonServices {
     }
 
     public PersonVO update(PersonVO personVO ){
+        if (personVO ==null ) throw new RequiredObjectIsNullException();
         logger.info("update one person!");
-
         var entity =  repository.findById(personVO.getId()).orElseThrow(()-> new ResourcesNotFoundException("Usuário não atualizado"));
-
         entity.setFirstName(personVO.getFirstName());
         entity.setLastName(personVO.getLastName());
         entity.setAddress(personVO.getAddress());
