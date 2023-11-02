@@ -90,8 +90,6 @@
 			<artifactId>jaxb-runtime</artifactId>
 			<version>3.1.0-M1</version>
 		</dependency>
-
-
     </dependencies>
 
 	<build>
