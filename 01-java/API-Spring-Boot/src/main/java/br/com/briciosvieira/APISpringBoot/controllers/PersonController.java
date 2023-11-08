@@ -21,12 +21,12 @@ public class PersonController {
         return personService.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:8080")
+
     @GetMapping( value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE})
     public PersonVO findById(@PathVariable (value = "id") Long id ) throws Exception{
       return personService.findById(id);
     }
-    @CrossOrigin(origins = {"http://localhost:8080","https://briciosvieira.com"})
+
     @PostMapping(
             produces = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE},
             consumes = {MediaType.APPLICATION_JSON_VALUE,MediaType.APPLICATION_XML_VALUE} )

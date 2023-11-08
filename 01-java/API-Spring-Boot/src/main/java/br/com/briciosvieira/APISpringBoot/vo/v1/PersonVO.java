@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
-public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
+public class PersonVO implements Serializable {
 
     private Long id;
     private String firstName;
@@ -22,9 +22,6 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
         this.address = address;
         this.gender = gender;
     }
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
