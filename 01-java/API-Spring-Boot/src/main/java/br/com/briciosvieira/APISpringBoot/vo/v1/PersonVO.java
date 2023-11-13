@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 
-public class PersonVO implements Serializable {
+public class PersonVO extends RepresentationModel<PersonVO>  implements Serializable {
 
     private Long id;
     private String firstName;
