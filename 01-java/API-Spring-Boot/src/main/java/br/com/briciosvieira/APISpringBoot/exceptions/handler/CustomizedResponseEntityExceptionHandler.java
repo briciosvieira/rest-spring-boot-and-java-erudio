@@ -1,6 +1,7 @@
 package br.com.briciosvieira.APISpringBoot.exceptions.handler;
 
 import br.com.briciosvieira.APISpringBoot.exceptions.ExceptionResponse;
+import br.com.briciosvieira.APISpringBoot.exceptions.InvalidJwtAuthenticationException;
 import br.com.briciosvieira.APISpringBoot.exceptions.RequiredObjectIsNullException;
 import br.com.briciosvieira.APISpringBoot.exceptions.ResourcesNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,15 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 ex.getMessage(),
                 request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(InvalidJwtAuthenticationException.class)
+    public final ResponseEntity<ExceptionResponse> handlerInvalidJwtAuthenticationException(Exception ex, WebRequest request){
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false));
+        return new ResponseEntity<>(exceptionResponse, HttpStatus.FORBIDDEN);
     }
 
 
