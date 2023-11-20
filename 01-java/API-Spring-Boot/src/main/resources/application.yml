@@ -1,5 +1,10 @@
 cors:
   originPatterns: http://localhost:3000,http://localhost:8080,https://briciosvieira.com
+security:
+  jwt:
+    token:
+      secret-key: curso
+      expire-lenght: 360
 
 spring:
   datasource:
